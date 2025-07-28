@@ -28,7 +28,7 @@ def preprocess(text):
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = ''.join([char for char in text if not char.isdigit()])
     text = ''.join([char for char in text if char.isascii()])
-    tokens = text.split()  # Use split() instead of word_tokenize()
+    tokens = text.split()
     tokens = [word for word in tokens if word not in stop_words]
     return ' '.join(tokens)
 

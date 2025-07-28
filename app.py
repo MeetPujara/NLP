@@ -7,9 +7,9 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 # Load model and vectorizer
-model = joblib.load('emotion_model.pkl')
-vectorizer = joblib.load('tfidf_vectorizer.pkl')
-label_mapping = joblib.load('label_mapping.pkl')
+model = joblib.load('models/emotion_model.pkl')
+vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
+label_mapping = joblib.load('models/label_mapping.pkl')
 
 # Download required NLTK resources
 nltk.download('punkt')

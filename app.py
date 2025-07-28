@@ -2,19 +2,25 @@
 import streamlit as st
 import string
 import joblib
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 
 # Load model and vectorizer
 model = joblib.load('models/emotion_model.pkl')
 vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
 label_mapping = joblib.load('models/label_mapping.pkl')
 
-# Download required NLTK resources
-nltk.download('punkt')
-nltk.download('stopwords')
-stop_words = set(stopwords.words('english'))
+# Define stopwords manually to avoid NLTK dependency
+stop_words = {
+    'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", 
+    "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 
+    'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 
+    'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 
+    'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 
+    'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 
+    'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 
+    'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'through', 'during', 
+    'before', 'after', 'above', 'below', 'up', 'down', 'in', 'out', 'on', 'off', 
+    'over', 'under', 'again', 'further', 'then', 'once'
+}
 
 inverse_mapping = {v: k for k, v in label_mapping.items()}
 def preprocess(text):
@@ -22,7 +28,7 @@ def preprocess(text):
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = ''.join([char for char in text if not char.isdigit()])
     text = ''.join([char for char in text if char.isascii()])
-    tokens = word_tokenize(text)
+    tokens = text.split()  # Use split() instead of word_tokenize()
     tokens = [word for word in tokens if word not in stop_words]
     return ' '.join(tokens)
 
